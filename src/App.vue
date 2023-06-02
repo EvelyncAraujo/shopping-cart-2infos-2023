@@ -1,6 +1,8 @@
 <script setup>
-import { livros } from '@/_data/livros.js'
-import {carrinho, adicionarAoCarrinho, removerItemCarrinho, atualizaQuantidadeItem} from '@/_data/carrinho.js'
+import { livros } from '@/_data/livros.js' 
+import { carrinho, adicionarAoCarrinho, removerItemCarrinho, atualizaQuantidadeItem } from '@/_data/carrinho.js'
+
+import CardLivro from '@/components/CardLivro.vue'
 
 function formatarPreco(preco) {
   return 'R$ ' + preco.toFixed(2).replace('.', ',')
@@ -11,19 +13,10 @@ function formatarPreco(preco) {
   <h1>Minha livraria</h1>
   <div class="container-geral">
     <div class="listagem-livros">
-      <div class="card-livro" v-for="livro in livros" :key="livro.id">
-        <div class="card-info-livro">
-          <div class="wrap-livro">
-            <img :src="livro.img" alt="Capa do livro" class="capa-livro" />
-          </div>
-          <p class="titulo-livro">{{ livro.title }}</p>
-          <p class="autor-livro">{{ livro.author }}</p>
-          <p class="preco-livro">{{ formatarPreco(livro.price) }}</p>
-        </div>
-        <div class="card-buttons-livros">
-          <button @click="adicionarAoCarrinho(livro)">Adicionar ao carrinho</button>
-        </div>
-      </div>
+      <card-livro v-for="livro in livros" 
+      v-bind:key="livro.id" v-bind:livro="livro" 
+      @adicionarAoCarrinho="adicionarAoCarrinho"/>
+      
     </div>
     <div class="carrinho">
       <h2>Meu carrinho</h2>
@@ -36,19 +29,14 @@ function formatarPreco(preco) {
                 <img :src="item.img" class="icon-capa-livro" />
               </div>
               <div class="detalhes-livro">
-                <div>
+                <div> 
                   <p>{{ item.title }}</p>
                   <p class="info-livro-preco">{{ formatarPreco(item.price) }}/un</p>
                 </div>
                 <div>
                   <p>
                     Quantidade:
-                    <input
-                      type="number"
-                      v-model="item.quantidade"
-                      @change="atualizaQuantidadeItem(item)"
-                      min="1"
-                    />
+                    <input type="number" v-model="item.quantidade" @change="atualizaQuantidadeItem(item)" min="1" />
                   </p>
                   <button @click="removerItemCarrinho(item)">&#128465;</button>
                   <p>Total: {{ formatarPreco(item.total) }}</p>
@@ -75,14 +63,17 @@ function formatarPreco(preco) {
   display: flex;
   margin-bottom: 10px;
 }
+
 .detalhes-livro {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
+
 .detalhes-livro p {
   margin: 0;
 }
+
 .detalhes-livro div {
   display: flex;
   justify-content: space-between;
@@ -111,10 +102,12 @@ function formatarPreco(preco) {
 .info-livro-preco {
   margin-left: auto;
 }
+
 .icon-capa-livro {
   width: 30px;
   margin-right: 10px;
 }
+
 .container-geral {
   /* display: flex;
   justify-content: space-between; */
@@ -125,42 +118,11 @@ function formatarPreco(preco) {
 .carrinho {
   /* min-width: 20%; */
 }
+
 .listagem-livros {
   display: flex;
   flex-wrap: wrap;
 }
 
-.card-livro {
-  margin: 5px 10px;
-  padding: 10px;
-  background-color: beige;
-  border-radius: 10px;
-  width: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 
-.wrap-livro {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 10px;
-  width: 180px;
-  height: 270px;
-}
-.capa-livro {
-  width: 90%;
-  max-height: 100%;
-}
-
-.card-livro p {
-  margin: 0;
-}
-
-.card-livro .titulo-livro {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
 </style>
