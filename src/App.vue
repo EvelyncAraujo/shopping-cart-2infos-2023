@@ -17,5 +17,9 @@ import MeuCarrinho from '@/components/MeuCarrinho.vue';
   justify-content: space-between; */
   display: grid;
   grid-template-columns: 3fr 1fr;
+  
+}
+h1{
+  text-align: center;
 }
 </style>
